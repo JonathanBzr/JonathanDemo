@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.TaskRequestDTO;
 import com.example.demo.dto.TaskResponseDTO;
+import com.example.demo.model.Prioridade;
 import com.example.demo.model.Tarefa;
 import com.example.demo.repository.TarefaRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class TarefaService {
 
     public TaskResponseDTO criar(TaskRequestDTO dto) {
         String titulo=dto.titulo();
-        Tarefa tarefa = new Tarefa(sequencia.incrementAndGet(),dto.titulo(),dto.descricao(),null);
+        Tarefa tarefa = new Tarefa(sequencia.incrementAndGet(),dto.titulo(),false, Prioridade.BAIXA);
         System.out.println("[SERVICE] Validando regra de negócio para: " +
                 titulo);
         if (titulo == null || titulo.isBlank()) {
@@ -36,7 +37,7 @@ public class TarefaService {
                 tarefa.getId(),
                 tarefa.getTitulo(),
                 tarefa.isConcluida(),
-                tarefa.getPrioridade()
+                tarefa.getPrioridade().toString()
         );
     }
 
