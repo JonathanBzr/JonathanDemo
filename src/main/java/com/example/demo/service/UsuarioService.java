@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.example.demo.model.Usuario.getCargo;
-
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
@@ -27,7 +25,7 @@ public class UsuarioService {
         return usuarioRepository.listarUsuarios();
     }
 
-    public Usuario deletarPorId(Long id) {
+    public Usuario deletarPorId() {
         System.out.println("[SERVICE] Deletando usuario: " + id);
         Usuario usuario = usuarioRepository.buscarPorId(id);
         UsuarioRepository.delete(usuario);

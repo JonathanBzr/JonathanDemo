@@ -28,7 +28,7 @@ public class TarefaService {
         if (titulo == null || titulo.isBlank()) {
             throw new IllegalArgumentException("O título da tarefa não pode ser vazio.");
         }
-        Tarefa salva= repository.salvar(tarefa);
+        Tarefa salva= repository.save(tarefa);
         return toResponseDTO(salva);
     }
 
@@ -43,12 +43,11 @@ public class TarefaService {
 
     public List<Tarefa> listar() {
         System.out.println("[SERVICE] Solicitando lista de tarefas ao repository");
-        return repository.listarTodas();
+        return repository.findAll();
     }
     public Tarefa buscarPorId(Long id) {
         System.out.println("[SERVICE] Processando busca por id: " + id);
-        return repository.buscarPorId(id)
-                .orElseThrow(() -> new IllegalArgumentException("Tarefa não encontrada: " + id));
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Tarefa não encontrada: " + id));
     }
 
     public List<Tarefa> listarConcluidos(){
@@ -63,5 +62,13 @@ public class TarefaService {
         }
         return tarefasConcluidas;
 
+    }
+
+    public TaskResponseDTO atualizar(Long id, TaskRequestDTO corpo) {
+        Tarefa tarefa = buscarPorId(id);
+        tarefa .setTitulo(corpo.titulo());
+        tarefa.setConcluida(corpo.concluida());
+        tarefa.setPrioridade(corpo.prioridade());
+        return toResponseDTO(repository.save(tarefa));
     }
 }
